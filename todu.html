@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #0073e6;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0073e6;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #0073e6;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .todo-item {
+            background-color: #e0f7fa;
+            color: #0073e6;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            background-color: transparent;
+            border: none;
+            color: #0073e6;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            color: #005bb5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>My Todo List</h1>
+        <div class="input-container">
+            <input type="text" id="todo-input" placeholder="Add a new task...">
+            <button onclick="addTodo()">Add</button>
+        </div>
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script>
+        function addTodo() {
+            const todoInput = document.getElementById("todo-input");
+            const todoText = todoInput.value.trim();
+
+            if (todoText === "") {
+                alert("Please enter a task.");
+                return;
+            }
+
+            const todoList = document.getElementById("todo-list");
+            const todoItem = document.createElement("li");
+            todoItem.className = "todo-item";
+
+            const taskText = document.createElement("span");
+            taskText.innerText = todoText;
+
+            const buttons = document.createElement("div");
+            buttons.className = "buttons";
+
+            const editBtn = document.createElement("button");
+            editBtn.className = "edit-btn";
+            editBtn.innerHTML = "✏"; // Edit icon
+            editBtn.onclick = function () {
+                editTodo(todoItem, taskText);
+            };
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.innerHTML = "🗑"; // Trash can icon
+            deleteBtn.onclick = function () {
+                todoList.removeChild(todoItem);
+            };
+
+            buttons.appendChild(editBtn);
+            buttons.appendChild(deleteBtn);
+
+            todoItem.appendChild(taskText);
+            todoItem.appendChild(buttons);
+            todoList.appendChild(todoItem);
+
+            todoInput.value = "";
+        }
+
+        function editTodo(todoItem, taskText) {
+            const newText = prompt("Edit your task:", taskText.innerText);
+            if (newText !== null && newText.trim() !== "") {
+                taskText.innerText = newText.trim();
+            }
+        }
+    </script>
+</body>
+
+</html>
